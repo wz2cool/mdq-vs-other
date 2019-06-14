@@ -1,5 +1,6 @@
 package com.github.wz2cool.mdqvsother.jpa.test;
 
+import com.github.wz2cool.mdqvsother.jpa.dao.UserCustomRepository;
 import com.github.wz2cool.mdqvsother.jpa.dao.UserDAO;
 import com.github.wz2cool.mdqvsother.jpa.model.entity.UserDO;
 import com.google.gson.Gson;
@@ -9,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
@@ -20,6 +20,8 @@ import java.util.List;
 public class UserDOTest {
     @Resource
     private UserDAO userDao;
+    @Resource
+    private UserCustomRepository userCustomRepository;
 
     @Resource
     private Gson gson;
@@ -65,9 +67,18 @@ public class UserDOTest {
 
         UserDO searchDO = new UserDO();
         searchDO.setId(2L);
+
+        // select * from user where id = 2
         Example<UserDO> example = Example.of(searchDO);
         userDOList = userDao.findAll(example);
         System.out.println(String.format("查询id 为2的结果：%s", gson.toJson(userDOList)));
+    }
+
+    @Test
+    public void testCriate() {
+        List<UserDO> result = userCustomRepository.getCustomUserList();
+
+        System.out.println(String.format("结果: %s", gson.toJson(result)));
     }
 
     @After
