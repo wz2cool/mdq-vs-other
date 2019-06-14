@@ -20,7 +20,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
         CriteriaQuery<UserDO> query = criteriaBuilder.createQuery(UserDO.class);
         Root<UserDO> root = query.from(UserDO.class);
         query.select(root);
-        // List<Long> idList = Arrays.asList(new Long[]{1L, 2L, 3L});
         CriteriaBuilder.In<Long> inClause = criteriaBuilder.in(root.get("id"));
         inClause.in(1L);
         inClause.in(3L);
